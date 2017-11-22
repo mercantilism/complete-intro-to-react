@@ -1,17 +1,28 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { HashRouter, Route } from 'react-router-dom';
-import Landing from './landing';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Landing from './Landing';
+import Search from './Search';
+
+const FourOhFour = () => <h1>404</h1>;
 
 const App = () => (
-  // HashRouter is a higher order component; it doesn't render anything itself,
+  // BrowserRouter is a higher order component; it doesn't render anything itself,
   // it delegates rendering. It could be said that a higher order
   // component encapsulates behavior, but not style or markup
-  <HashRouter>
+
+  // The Switch component prevents the router from rendering more
+  // than one component, allowing us to serve our 404 component
+  <BrowserRouter>
     <div className="app">
-      <Route exact path="/" component={Landing} />
+      <Switch>
+        {/* <h1> Example of inter jsx comment </h1> */}
+        <Route exact path="/" component={Landing} />
+        <Route path="/search" component={Search} />
+        <Route component={FourOhFour} />
+      </Switch>
     </div>
-  </HashRouter>
+  </BrowserRouter>
 );
 
 render(<App />, document.getElementById('app'));
