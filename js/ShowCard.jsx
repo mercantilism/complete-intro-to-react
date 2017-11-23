@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 // these styles aren't output as inlined styles; it creates a style tag inside of which
 // the rules are applied to a generated class also applied to the generated element.
-
+// Media queries and sass/less use of & also work in styled components
 const Wrapper = styled.div`
   width: 32%;
   border: 2px solid #333;
@@ -24,6 +24,7 @@ const Image = styled.img`
   margin-right: 10px;
 `;
 
+// props here - the parent argument body - is immutable; the child can't modify these
 const ShowCard = props => (
   <Wrapper>
     <Image src={`/public/img/posters/${props.show.poster}`} alt={`${props.show.title} Show Poster`} />

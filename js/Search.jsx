@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import preload from '../data.json';
 import ShowCard from './ShowCard';
 
@@ -8,13 +8,44 @@ import ShowCard from './ShowCard';
 // to do with the actual shows data, Shows would still hold its
 // original assignment value
 
-const Search = () => (
-  <div className="search">
-    <div>
-      {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
-      {preload.shows.map(show => <ShowCard key={show.imdbID} show={show} />)}
-    </div>
-  </div>
-);
+// React Component classes must include the render() method, and that method must return markup.
+class Search extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      searchTerm: 'this is some sort of debug statement'
+    };
+
+    this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
+  }
+  handleSearchTermChange(event) {
+    this.setState({ searchTerm: event.target.value });
+    // We need to use the setState method, instead of this.state.searchTerm = ...
+    // because setState lets react know that a re-render needs to occur
+    // It's also an optimization path, wherein changes are batched
+  }
+  render() {
+    return (
+      <div className="search">
+        <header>
+          <h1>reactvideo</h1>
+          <input
+            type="text"
+            placeholder="search"
+            onChange={this.handleSearchTermChange}
+            value={this.state.searchTerm}
+          />
+        </header>
+        <div>
+          {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
+          {/* the key prop is also not available to the component to which
+          it is passed - it's not accessible as part of props */}
+          {preload.shows.map(show => <ShowCard key={show.imdbID} show={show} />)}
+        </div>
+      </div>
+    );
+  }
+}
 
 export default Search;
