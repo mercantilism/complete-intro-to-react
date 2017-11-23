@@ -10,8 +10,10 @@ import ShowCard from './ShowCard';
 
 const Search = () => (
   <div className="search">
-    {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
-    {preload.shows.map(show => <ShowCard key={show.imdbID} show={show} />)}
+    <div>
+      {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
+      {preload.shows.map(show => <ShowCard key={show.imdbID} show={show} />)}
+    </div>
   </div>
 );
 
