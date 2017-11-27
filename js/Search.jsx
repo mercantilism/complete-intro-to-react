@@ -46,7 +46,7 @@ class Search extends Component {
     return (
       <div className="search">
         <header>
-          <h1>reactvideo</h1>
+          <h1>react video</h1>
           <input
             type="text"
             placeholder="search"
@@ -58,7 +58,13 @@ class Search extends Component {
           {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
           {/* the key prop is also not available to the component to which
           it is passed - it's not accessible as part of props */}
-          {preload.shows.map(show => <ShowCard key={show.imdbID} show={show} />)}
+          {preload.shows
+            // filter to match search term
+            .filter(
+              show =>
+                `${show.title} ${show.description}`.toUpperCase().indexOf(this.state.searchTerm.toUpperCase()) >= 0
+            )
+            .map(show => <ShowCard key={show.imdbID} show={show} />)}
         </div>
       </div>
     );
