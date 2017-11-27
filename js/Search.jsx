@@ -10,6 +10,9 @@ import ShowCard from './ShowCard';
 
 // React Component classes must include the render() method, and that method must return markup.
 class Search extends Component {
+  /*
+  // without the use of class properties in defining class state, we would need
+  // to create this.state inside of a constructor
   constructor(props) {
     super(props);
 
@@ -17,14 +20,23 @@ class Search extends Component {
       searchTerm: 'this is some sort of debug statement'
     };
 
-    this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
+    // if, outside of the constructor, we hadn't defined handleSearchTerm as a prop,
+    //  but as a method - 'handleSearchTermChange(event) {...}' - then we would of had
+    // to bind handleSearchTermChange.this to the constructor 'this':
+    // this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
+    // .bind() creates a new function that, when called has it's 'this' keyword
+    // bound to the provided value
   }
-  handleSearchTermChange(event) {
+  */
+  state = {
+    searchTerm: ''
+  };
+  handleSearchTermChange = event => {
     this.setState({ searchTerm: event.target.value });
     // We need to use the setState method, instead of this.state.searchTerm = ...
     // because setState lets react know that a re-render needs to occur
     // It's also an optimization path, wherein changes are batched
-  }
+  };
   render() {
     return (
       <div className="search">
