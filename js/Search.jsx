@@ -28,9 +28,14 @@ class Search extends Component {
     // bound to the provided value
   }
   */
+
   state = {
     searchTerm: ''
   };
+
+  // we don't have to rebind this in handleSearchTermChange, because it's an arrow function.
+  // arrow functions don't create new contexts when called - so even when called in render, it's
+  // this will belong to its original context: this in Search
   handleSearchTermChange = event => {
     this.setState({ searchTerm: event.target.value });
     // We need to use the setState method, instead of this.state.searchTerm = ...
