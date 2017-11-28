@@ -1,7 +1,9 @@
 import React from 'react';
 // import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
+import preload from '../../data.json';
 import Search from '../Search';
+import ShowCard from '../ShowCard';
 
 test('Search renders correctly', () => {
   // Using just renderer:
@@ -25,6 +27,37 @@ test('Search renders correctly', () => {
   // NODE_ENV=test ./node_modules/.bin/jest -u
   // - this will rewrite our snapshots
 });
+
+test('Search should render correct amount of shows', () => {
+  const component = shallow(<Search />);
+  // order of expect statements should match: received value to equal expected value
+  // component.find() works with css selectors, like 'input' but also with
+  // react component, in our case ShowCard
+  expect(component.find(ShowCard).length).toEqual(preload.shows.length);
+});
+
+test('Search should render the correct amount of showcards based on search term', () => {
+  const searchWord = 'black';
+  const component = shallow(<Search />);
+  // simulate() simulates events
+  component.find('input').simulate('change', { target: { value: searchWord } });
+  const showCount = preload.shows.filter(
+    show => `${show.title} ${show.description}`.toUpperCase().indexOf(searchWord.toUpperCase()) >= 0
+  ).length;
+  expect(component.find(ShowCard).length).toEqual(showCount);
+});
+
+// we can skip a test by declaring xtest(), like:
+xtest("this is a test I'm skipping", () => {});
+
+// we can also create a test suite using 'describe' and nesting our test's inside it:
+// (this is useful when we're testing multiple features or pieces of functionality that apply in the same component)
+/*
+describe('Search', () => {
+  // inside we would use the keyword 'it' instead of test
+  it('should render correct amount of shows', () => {...})
+})
+*/
 
 // Note that we have to configure for using imports and jsx in our .babelrc
 // - we'll need to create top level "env" option to provide plugin use to our test target
