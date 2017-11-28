@@ -1,28 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Landing from './Landing';
-import Search from './Search';
+import App from './App';
 
-const FourOhFour = () => <h1>404</h1>;
+const renderApp = () => {
+  render(<App />, document.getElementById('app'));
+};
 
-const App = () => (
-  // BrowserRouter is a higher order component; it doesn't render anything itself,
-  // it delegates rendering. It could be said that a higher order
-  // component encapsulates behavior, but not style or markup
+renderApp();
 
-  // The Switch component prevents the router from rendering more
-  // than one component, allowing us to serve our 404 component
-  <BrowserRouter>
-    <div className="app">
-      <Switch>
-        {/* <h1> Example of inter jsx comment </h1> */}
-        <Route exact path="/" component={Landing} />
-        <Route path="/search" component={Search} />
-        <Route component={FourOhFour} />
-      </Switch>
-    </div>
-  </BrowserRouter>
-);
-
-render(<App />, document.getElementById('app'));
+// for Hot Module Reload, only enabled in dev
+// module.hot comes along as webpack bundles our code with various
+// hot module reload plugins we've specified
+if (module.hot) {
+  // anytime App changes, rerender the whole app
+  // the other modules/component know how to replace themselves
+  // because of the joints we made through the babel config,
+  // it's just the top level module that needs to be helped out
+  module.hot.accept('./App', () => {
+    renderApp();
+  });
+}

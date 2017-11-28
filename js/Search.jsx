@@ -46,7 +46,7 @@ class Search extends Component {
     return (
       <div className="search">
         <header>
-          <h1>react video</h1>
+          <h1>reactvideo</h1>
           <input
             type="text"
             placeholder="search"
