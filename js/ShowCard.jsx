@@ -1,5 +1,8 @@
+// @flow
+
 import React from 'react';
-import { shape, string } from 'prop-types';
+// we would import prop-types if we weren't using flow
+// import { shape, string } from 'prop-types';
 import styled from 'styled-components';
 
 // styled`...` is a tagged template literal - it's valid JS and runs a template
@@ -25,24 +28,27 @@ const Image = styled.img`
 `;
 
 // props here - the parent argument body - is immutable; the child can't modify these
-const ShowCard = props => (
+const ShowCard = (props: { poster: string, title: string, year: string, description: string }) => (
   <Wrapper>
-    <Image src={`/public/img/posters/${props.show.poster}`} alt={`${props.show.title} Show Poster`} />
+    <Image src={`/public/img/posters/${props.poster}`} alt={`${props.title} Show Poster`} />
     <div>
-      <h3>{props.show.title}</h3>
-      <h4>({props.show.year})</h4>
-      <p>{props.show.description}</p>
+      <h3>{props.title}</h3>
+      <h4>({props.year})</h4>
+      <p>{props.description}</p>
     </div>
   </Wrapper>
 );
 
+// If we weren't using flow, but using prop types:
 /* if we wanted to create default prop vals
 ShowCard.defaultProps = {
   foo: 'stuff'
 };
 */
 
+// Again, if we weren't using flow, but using prop types:
 // we can define the props of a propTypes type object with the shape() method
+/*
 ShowCard.propTypes = {
   show: shape({
     poster: string.isRequired,
@@ -51,5 +57,6 @@ ShowCard.propTypes = {
     description: string.isRequired
   }).isRequired
 };
+*/
 
 export default ShowCard;

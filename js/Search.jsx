@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import preload from '../data.json';
 import ShowCard from './ShowCard';
@@ -36,7 +38,7 @@ class Search extends Component {
   // we don't have to rebind this in handleSearchTermChange, because it's an arrow function.
   // arrow functions don't create new contexts when called - so even when called in render, it's
   // this will belong to its original context: this in Search
-  handleSearchTermChange = event => {
+  handleSearchTermChange = (event: SyntheticKeyboardEvent & { target: HTMLInputElement }) => {
     this.setState({ searchTerm: event.target.value });
     // We need to use the setState method, instead of this.state.searchTerm = ...
     // because setState lets react know that a re-render needs to occur
@@ -64,7 +66,15 @@ class Search extends Component {
               show =>
                 `${show.title} ${show.description}`.toUpperCase().indexOf(this.state.searchTerm.toUpperCase()) >= 0
             )
-            .map(show => <ShowCard key={show.imdbID} show={show} />)}
+            .map(show => (
+              <ShowCard
+                key={show.imdbID}
+                poster={show.poster}
+                title={show.title}
+                year={show.year}
+                description={show.description}
+              />
+            ))}
         </div>
       </div>
     );
