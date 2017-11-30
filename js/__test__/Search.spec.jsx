@@ -18,7 +18,7 @@ test('Search renders correctly', () => {
   // the hood, but renderer and enzyme cannot be imported in the same file
   // shallow() lets us test the component but it ignore it's children components
   // We should create separate tests for our children
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={preload.shows} />);
   // A directory is created for snapshots inside of current directory
   // Here match the current tree agains our previous tree snapshot
   expect(component).toMatchSnapshot();
@@ -29,7 +29,7 @@ test('Search renders correctly', () => {
 });
 
 test('Search should render correct amount of shows', () => {
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={preload.shows} />);
   // order of expect statements should match: received value to equal expected value
   // component.find() works with css selectors, like 'input' but also with
   // react component, in our case ShowCard
@@ -38,7 +38,7 @@ test('Search should render correct amount of shows', () => {
 
 test('Search should render the correct amount of showcards based on search term', () => {
   const searchWord = 'black';
-  const component = shallow(<Search />);
+  const component = shallow(<Search shows={preload.shows} />);
   // simulate() simulates events
   component.find('input').simulate('change', { target: { value: searchWord } });
   const showCount = preload.shows.filter(
