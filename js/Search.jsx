@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import ShowCard from './ShowCard';
+import Header from './Header';
 
 // if we wanted to hold an array of html elements from our json we could:
 // const Shows = preload.shows.map(show => <h3>{show.title}</h3>);
@@ -48,15 +49,7 @@ class Search extends Component {
   render() {
     return (
       <div className="search">
-        <header>
-          <h1>reactvideo</h1>
-          <input
-            type="text"
-            placeholder="search"
-            onChange={this.handleSearchTermChange}
-            value={this.state.searchTerm}
-          />
-        </header>
+        <Header showSearch handleSearchTermChange={this.handleSearchTermChange} searchTerm={this.state.searchTerm} />
         <div>
           {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
           {/* the key prop is also not available to the component to which
