@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import preload from '../data.json';
 import ShowCard from './ShowCard';
 
 // if we wanted to hold an array of html elements from our json we could:
@@ -34,7 +33,9 @@ class Search extends Component {
   state = {
     searchTerm: ''
   };
-
+  props: {
+    shows: Array<Show>
+  };
   // we don't have to rebind this in handleSearchTermChange, because it's an arrow function.
   // arrow functions don't create new contexts when called - so even when called in render, it's
   // this will belong to its original context: this in Search
@@ -60,7 +61,7 @@ class Search extends Component {
           {/* the key prop is a unique id for react to hold on to for more efficient diffing */}
           {/* the key prop is also not available to the component to which
           it is passed - it's not accessible as part of props */}
-          {preload.shows
+          {this.props.shows
             // filter to match search term
             .filter(
               show =>
