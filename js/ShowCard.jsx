@@ -4,6 +4,7 @@ import React from 'react';
 // we would import prop-types if we weren't using flow
 // import { shape, string } from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 // styled`...` is a tagged template literal - it's valid JS and runs a template
 // literal - the style rules - through the function styled.div;
@@ -12,13 +13,15 @@ import styled from 'styled-components';
 // these styles aren't output as inlined styles; it creates a style tag inside of which
 // the rules are applied to a generated class also applied to the generated element.
 // Media queries and sass/less use of & also work in styled components
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   width: 32%;
   border: 2px solid #333;
   border-radius: 4px;
   margin-bottom: 25px;
   padding-right: 10px;
   overflow: hidden;
+  color: black;
+  text-decoration: none;
 `;
 
 const Image = styled.img`
@@ -28,8 +31,8 @@ const Image = styled.img`
 `;
 
 // props here - the parent argument body - is immutable; the child can't modify these
-const ShowCard = (props: { poster: string, title: string, year: string, description: string }) => (
-  <Wrapper>
+const ShowCard = (props: Show) => (
+  <Wrapper to={`/details/${props.imdbID}`}>
     <Image src={`/public/img/posters/${props.poster}`} alt={`${props.title} Show Poster`} />
     <div>
       <h3>{props.title}</h3>
