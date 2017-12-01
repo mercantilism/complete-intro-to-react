@@ -1,30 +1,29 @@
 // @flow
 
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { getAPIDetails } from './actionCreators';
 import Header from './Header';
 import Spinner from './Spinner';
 
 class Details extends Component {
-  state = {
-    apiData: { rating: '' }
-  };
   // component did mount is a life cycle hook: takes place after a component renders
   componentDidMount() {
-    // will return a promise
-    axios.get(`http://localhost:3000/${this.props.show.imdbID}`).then((response: { data: { rating: string } }) => {
-      this.setState({ apiData: response.data });
-    });
+    if (!this.props.rating) {
+      this.props.getAPIData();
+    }
   }
   props: {
-    show: Show
+    show: Show,
+    rating: string,
+    getAPIData: Function
   };
   render() {
     // destructuring props.show into same-named consts
     const { title, description, year, poster, trailer } = this.props.show;
     let ratingComponent;
-    if (this.state.apiData.rating) {
-      ratingComponent = <h3>{this.state.apiData.rating}</h3>;
+    if (this.props.rating) {
+      ratingComponent = <h3>{this.props.rating}</h3>;
     } else {
       ratingComponent = <Spinner />;
     }
@@ -51,4 +50,19 @@ class Details extends Component {
   }
 }
 
-export default Details;
+// ownProps are the props passed down from the parents component
+const mapStateToProps = (state, ownProps) => {
+  // If the the imdbID passed from the parent matches an object in state.apiData,
+  // then return that apiData obj prop, else return an empty object
+  const apiData = state.apiData[ownProps.show.imdbID] ? state.apiData[ownProps.show.imdbID] : {};
+  // Will either give us our rating - if we have already fetched the info for this title,
+  // or will give us and undefined rating, so we can trigger the fetch
+  return { rating: apiData.rating };
+};
+const mapDispatchToProps = (dispatch: Function, ownProps) => ({
+  getAPIData() {
+    dispatch(getAPIDetails(ownProps.show.imdbID));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);

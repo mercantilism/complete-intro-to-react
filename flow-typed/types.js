@@ -8,7 +8,9 @@ export type Show = {
   year: string,
   imdbID: string,
   trailer: string,
-  poster: string
+  poster: string,
+  // we get rating data from our api, but not from our preload json, so rating is a maybe type
+  rating?: string
 };
 
 // declaring this for use in ClientApp:
@@ -23,7 +25,7 @@ declare var module: {
 
 // an enumerated type: ActionType can only equal one of these strings
 // (since we just have the one type currently, we've set it equal to just the one string)
-declare type ActionType = 'SET_SEARCH_TERM';
+declare type ActionType = 'SET_SEARCH_TERM' | 'ADD_API_DATA';
 
 // the |'s here are needed when using generic types
 declare type ActionT<A: ActionType, P> = {|
@@ -33,4 +35,4 @@ declare type ActionT<A: ActionType, P> = {|
 
 // For multiple ActionTypes we set Action = ActionT<...> | ActionT<...>
 // that is a different ActionT for each ActionType we want to export
-export type Action = ActionT<'SET_SEARCH_TERM', string>;
+export type Action = ActionT<'SET_SEARCH_TERM', string> | ActionT<'ADD_API_DATA', Show>;

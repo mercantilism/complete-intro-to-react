@@ -1,7 +1,7 @@
 // @flow
 
 import { combineReducers } from 'redux';
-import { SET_SEARCH_TERM } from './actions';
+import { SET_SEARCH_TERM, ADD_API_DATA } from './actions';
 
 // action shape should be like:
 /*
@@ -22,8 +22,16 @@ const searchTerm = (state = '', action: Action) => {
   return state;
 };
 
+const apiData = (state = {}, action: Action) => {
+  if (action.type === ADD_API_DATA) {
+    // we add a prop to our new apiData state object; it has the imdbID as it's key and a show obj for a value
+    return Object.assign({}, state, { [action.payload.imdbID]: action.payload });
+  }
+  return state;
+};
+
 // combineReducers({searchTerm: searchTerm}...) shortened by es6 object-shorthand
-const rootReducer = combineReducers({ searchTerm });
+const rootReducer = combineReducers({ searchTerm, apiData });
 
 /*
 // combining reducers without combineReducers()
