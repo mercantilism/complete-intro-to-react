@@ -23,6 +23,7 @@ const App = () => (
       <Switch>
         {/* <h1> Example of inter jsx comment </h1> */}
         <Route exact path="/" component={Landing} />
+        <Route path="/search/:term" component={props => <Search shows={preload.shows} {...props} />} />
         <Route path="/search" component={props => <Search shows={preload.shows} {...props} />} />
         <Route
           path="/details/:id"

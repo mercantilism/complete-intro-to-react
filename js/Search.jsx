@@ -32,10 +32,11 @@ class Search extends Component {
   */
 
   state = {
-    searchTerm: ''
+    searchTerm: this.props.match.params.term || ''
   };
   props: {
-    shows: Array<Show>
+    shows: Array<Show>,
+    match: any
   };
   // we don't have to rebind this in handleSearchTermChange, because it's an arrow function.
   // arrow functions don't create new contexts when called - so even when called in render, it's
@@ -47,6 +48,7 @@ class Search extends Component {
     // It's also an optimization path, wherein changes are batched
   };
   render() {
+    // if (this.props.match.params.term) {  }
     return (
       <div className="search">
         <Header showSearch handleSearchTermChange={this.handleSearchTermChange} searchTerm={this.state.searchTerm} />

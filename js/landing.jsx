@@ -15,6 +15,7 @@ class Landing extends Component {
       <div className="landing">
         <h1>reactvideo</h1>
         <input type="text" placeholder="search" value={this.state.searchTerm} onChange={this.handleSearchTerm} />
+        <Link to={`/search/${this.state.searchTerm}`}>Search</Link>
         <Link to="/search">or Browse All</Link>
       </div>
       // the 'to' attribute of the Link component provides the
