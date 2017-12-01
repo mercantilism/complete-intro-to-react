@@ -33,4 +33,7 @@ const Search = (props: {
 
 const mapStateToProps = state => ({ searchTerm: state.searchTerm });
 
+// this Unwrapped export is our Search component, without the Connect(Search) wrapper
+// component crated by 'connect' from react-redux: this is for testing purposes
+export const Unwrapped = Search;
 export default connect(mapStateToProps)(Search);

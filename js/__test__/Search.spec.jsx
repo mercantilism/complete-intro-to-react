@@ -1,8 +1,12 @@
 import React from 'react';
 // import renderer from 'react-test-renderer';
-import { shallow } from 'enzyme';
+import { shallow, render } from 'enzyme';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import store from '../store';
+import { setSearchTerm } from '../actionCreators';
 import preload from '../../data.json';
-import Search from '../Search';
+import Search, { Unwrapped as UnwrappedSearch } from '../Search';
 import ShowCard from '../ShowCard';
 
 test('Search renders correctly', () => {
@@ -18,7 +22,7 @@ test('Search renders correctly', () => {
   // the hood, but renderer and enzyme cannot be imported in the same file
   // shallow() lets us test the component but it ignore it's children components
   // We should create separate tests for our children
-  const component = shallow(<Search shows={preload.shows} />);
+  const component = shallow(<UnwrappedSearch shows={preload.shows} searchTerm="" />);
   // A directory is created for snapshots inside of current directory
   // Here match the current tree agains our previous tree snapshot
   expect(component).toMatchSnapshot();
@@ -29,22 +33,39 @@ test('Search renders correctly', () => {
 });
 
 test('Search should render correct amount of shows', () => {
-  const component = shallow(<Search shows={preload.shows} />);
+  const component = shallow(<UnwrappedSearch shows={preload.shows} searchTerm="" />);
   // order of expect statements should match: received value to equal expected value
   // component.find() works with css selectors, like 'input' but also with
   // react component, in our case ShowCard
   expect(component.find(ShowCard).length).toEqual(preload.shows.length);
 });
 
-test('Search should render the correct amount of showcards based on search term', () => {
+test('Search should render the correct amount of showCard components based on search term - without Redux', () => {
   const searchWord = 'black';
-  const component = shallow(<Search shows={preload.shows} />);
-  // simulate() simulates events
-  component.find('input').simulate('change', { target: { value: searchWord } });
+  const component = shallow(<UnwrappedSearch shows={preload.shows} searchTerm={searchWord} />);
   const showCount = preload.shows.filter(
     show => `${show.title} ${show.description}`.toUpperCase().indexOf(searchWord.toUpperCase()) >= 0
   ).length;
   expect(component.find(ShowCard).length).toEqual(showCount);
+});
+
+test('Search should render the correct amount of showCard components based on search term - with Redux', () => {
+  const searchWord = 'black';
+  store.dispatch(setSearchTerm(searchWord));
+  const component = render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <Search shows={preload.shows} searchTerm={searchWord} />
+      </MemoryRouter>
+    </Provider>
+  );
+  const showCount = preload.shows.filter(
+    show => `${show.title} ${show.description}`.toUpperCase().indexOf(searchWord.toUpperCase()) >= 0
+  ).length;
+  // because we are using render() instead of shallow(), the 'component' value will be actual mark-up;
+  // this means we have to find() with an actual css selector, instead of a react component name:
+  // so '.show-card' instead of 'showCard'
+  expect(component.find('.show-card').length).toEqual(showCount);
 });
 
 // we can skip a test by declaring xtest(), like:
