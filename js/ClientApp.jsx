@@ -2,7 +2,20 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+// import Perf from 'react-addons-perf';
 import App from './App';
+
+// bring in performance tools
+// make perf tools available on window, so we can manipulate it
+/*
+window.Perf = Perf;
+// start on page load
+Perf.start();
+*/
+
+// in console, Perf.printWasted() will show us all of the times we render but nothing changes
+// Perf.printInclusive() will give times for all renders
+// Perf.printExclusive() will do much the same, but exclusive of life cycle methods
 
 const renderApp = () => {
   render(<App />, document.getElementById('app'));

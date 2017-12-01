@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 // we would import prop-types if we weren't using flow
 // import { shape, string } from 'prop-types';
 import styled from 'styled-components';
@@ -31,16 +31,32 @@ const Image = styled.img`
 `;
 
 // props here - the parent argument body - is immutable; the child can't modify these
-const ShowCard = (props: Show) => (
-  <Wrapper to={`/details/${props.imdbID}`}>
-    <Image src={`/public/img/posters/${props.poster}`} alt={`${props.title} Show Poster`} />
-    <div>
-      <h3>{props.title}</h3>
-      <h4>({props.year})</h4>
-      <p>{props.description}</p>
-    </div>
-  </Wrapper>
-);
+
+class ShowCard extends Component {
+  // Default behavior is to re-render on every state change.
+  // Returning false from shouldComponentUpdate overrides that default behavior.
+  // ShowCard is stateless, so, after it's initial render, it never needs to update
+  // This is an important performance measure to take sense all of the showcards
+  // would update whenever the user change the value of the Search serch input
+  shouldComponentUpdate() {
+    return false;
+    // we could instead specify the update trigger, like
+    // return this.props.rating !=== nextProps.rating
+  }
+  props: Show;
+  render() {
+    return (
+      <Wrapper to={`/details/${this.props.imdbID}`}>
+        <Image src={`/public/img/posters/${this.props.poster}`} alt={`${this.props.title} Show Poster`} />
+        <div>
+          <h3>{this.props.title}</h3>
+          <h4>({this.props.year})</h4>
+          <p>{this.props.description}</p>
+        </div>
+      </Wrapper>
+    );
+  }
+}
 
 // If we weren't using flow, but using prop types:
 /* if we wanted to create default prop vals
