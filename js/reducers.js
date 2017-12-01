@@ -1,8 +1,7 @@
-import { SET_SEARCH_TERM } from './actions';
+// @flow
 
-const DEFAULT_STATE = {
-  searchTerm: ''
-};
+import { combineReducers } from 'redux';
+import { SET_SEARCH_TERM } from './actions';
 
 // action shape should be like:
 /*
@@ -16,6 +15,18 @@ const DEFAULT_STATE = {
 }
 */
 
+const searchTerm = (state = '', action: Action) => {
+  if (action.type === SET_SEARCH_TERM) {
+    return action.payload;
+  }
+  return state;
+};
+
+// combineReducers({searchTerm: searchTerm}...) shortened by es6 object-shorthand
+const rootReducer = combineReducers({ searchTerm });
+
+/*
+// combining reducers without combineReducers()
 const setSearchTerm = (state, action) => Object.assign({}, state, { searchTerm: action.payload });
 
 const rootReducer = (state = DEFAULT_STATE, action) => {
@@ -26,5 +37,6 @@ const rootReducer = (state = DEFAULT_STATE, action) => {
       return state;
   }
 };
+*/
 
 export default rootReducer;
