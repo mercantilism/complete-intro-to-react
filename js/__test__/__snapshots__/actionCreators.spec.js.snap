@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addAPIData 1`] = `
+Object {
+  "payload": Object {
+    "description": "Set at the intersection of the near future and the reimagined past, explore a world in which every human appetite, no matter how noble or depraved, can be indulged without consequence.",
+    "imdbID": "tt0475784",
+    "poster": "ww.jpg",
+    "rating": "6.0",
+    "title": "Westworld",
+    "trailer": "eX3u0IlBBO4",
+    "year": "2016–",
+  },
+  "type": "ADD_API_DATA",
+}
+`;
+
+exports[`setSearchTerm 1`] = `
+Object {
+  "payload": "New York",
+  "type": "SET_SEARCH_TERM",
+}
+`;
