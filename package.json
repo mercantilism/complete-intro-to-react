@@ -6,14 +6,13 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "dev": "webpack-dev-server",
+    "start": "NODE_ENV=server node server.js",
     "test": "jest",
     "test:update": "jest -u",
     "test:coverage": "jest --coverage"
   },
   "jest": {
-    "snapshotSerializers": [
-      "jest-serializer-enzyme"
-    ]
+    "snapshotSerializers": ["jest-serializer-enzyme"]
   },
   "dependencies": {
     "axios": "0.16.1",
