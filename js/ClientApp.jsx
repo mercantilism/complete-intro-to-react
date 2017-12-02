@@ -3,6 +3,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 // import Perf from 'react-addons-perf';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 // bring in performance tools
@@ -18,7 +19,12 @@ Perf.start();
 // Perf.printExclusive() will do much the same, but exclusive of life cycle methods
 
 const renderApp = () => {
-  render(<App />, document.getElementById('app'));
+  render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+    document.getElementById('app')
+  );
 };
 
 renderApp();
