@@ -6,15 +6,11 @@ require('babel-register');
 const express = require('express');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
+const compression = require('compression');
 const fs = require('fs');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpack = require('webpack');
 const App = require('./js/App').default;
-const config = require('./webpack.config');
 
 const StaticRouter = ReactRouter.StaticRouter;
 const port = 8080;
@@ -26,14 +22,9 @@ const template = _.template(baseTemplate);
 
 const server = express();
 
-const compiler = webpack(config);
-server.use(
-  webpackDevMiddleware(compiler, {
-    publicPath: config.output.publicPath
-  })
-);
-server.use(webpackHotMiddleware(compiler));
-
+// Would not normally do g-zipping in our node server, would normally do that further out
+// at the nginx or apache level, the level of our reverse proxy
+server.use(compression());
 // says statically serve files in the public library
 server.use('/public', express.static('./public'));
 
