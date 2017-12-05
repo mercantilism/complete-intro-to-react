@@ -2,7 +2,8 @@
 
 // moxios is the mocking library for axios
 import moxios from 'moxios';
-import { setSearchTerm, addAPIData, getAPIDetails } from '../actionCreators';
+import { setSearchTerm, addAPIData } from '../actionCreators';
+import getAPIDetails from '../asyncActions';
 
 const westWorld = {
   rating: '6.0',
